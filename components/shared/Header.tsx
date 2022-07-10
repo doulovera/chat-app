@@ -1,5 +1,6 @@
 import { useUser } from '@store';
 import Link from 'next/link';
+import { SignOut } from 'phosphor-react';
 import { useRef } from 'react';
 import SignInButton from './SignInButton';
 
@@ -28,8 +29,11 @@ export default function Header () {
         ref={profilePopupRef}
         className="hidden absolute -bottom-12 right-10 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
       >
-        <button className="w-full py-1 hover:bg-gray-100 outline-none border-none" onClick={() => handlePopupElementClick(() => logOutUser())}>
-          Sign out
+        <button className="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 text-black outline-none border-none" onClick={() => handlePopupElementClick(() => logOutUser())}>
+          <SignOut size={18} />
+          <span className="flex-1">
+            Sign out
+          </span>
         </button>
       </div>
     </header>

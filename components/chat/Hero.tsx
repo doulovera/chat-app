@@ -13,7 +13,7 @@ function HeroButton (
       >
         {icon}
       </button>
-      <p className="text-sm">
+      <p className="text-sm text-center">
         {label}
       </p>
     </div>
@@ -31,9 +31,9 @@ export default function Hero () {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="flex items-center justify-around h-full w-3/4 mx-auto">
-        <HeroButton icon={<Plus size={32} />} label="Create Conversation" handleClick={() => console.log('1')} />
-        <HeroButton icon={<SignIn size={32} />} label="Join Conversation" handleClick={() => console.log('1')} />
+      <div className="flex items-center justify-around gap-2 h-full w-3/4 mx-auto">
+        <HeroButton icon={<Plus size={32} color="#dedede" />} label="Create Conversation" handleClick={() => console.log('1')} />
+        <HeroButton icon={<SignIn size={32} color="#dedede" />} label="Join Conversation" handleClick={() => console.log('1')} />
       </div>
     </div>
   );
