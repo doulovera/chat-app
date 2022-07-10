@@ -4,11 +4,13 @@ import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import type { Conversation } from '@twilio/conversations';
+import { logOut } from '@services/auth';
 
 type Store = {
   isActive: boolean;
   user: UserInfo | null;
   setUser: (user: UserInfo) => void;
+  logOutUser: () => void;
 }
 
 export const useUser = create(persist<Store>(
@@ -21,6 +23,14 @@ export const useUser = create(persist<Store>(
         ...state,
         user: { ...user, username },
         isActive: true,
+      }));
+    },
+    logOutUser: async () => {
+      await logOut();
+      set((state) => ({
+        ...state,
+        user: null,
+        isActive: false,
       }));
     },
   }),

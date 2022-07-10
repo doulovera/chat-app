@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { GithubAuthProvider, getAuth, signInWithRedirect, onAuthStateChanged, signOut } from 'firebase/auth';
+import { GithubAuthProvider, getAuth, onAuthStateChanged, signOut, signInWithPopup } from 'firebase/auth';
 import { UserInfo } from '@typests/user';
 
 const firebaseConfig = {
@@ -29,8 +29,7 @@ const mapUserFromAuth = (user: any) => {
 };
 
 export const logOut = async () => {
-  const signout = await signOut(auth);
-  console.log('signout', signout);
+  await signOut(auth);
   return null;
 };
 
@@ -44,5 +43,5 @@ export const onAuthChanged = (onChange: (user: UserInfo | null) => void) => {
 export const logInGithub = () => {
   const provider = new GithubAuthProvider();
   provider.addScope('read:user');
-  return signInWithRedirect(auth, provider);
+  return signInWithPopup(auth, provider);
 };

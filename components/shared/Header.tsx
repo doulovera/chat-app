@@ -1,10 +1,12 @@
+import { useUser } from '@store';
 import Link from 'next/link';
 import { useRef } from 'react';
 import SignInButton from './SignInButton';
-import { logOut } from '@services/auth';
 
 export default function Header () {
   const profilePopupRef = useRef<HTMLDivElement>(null);
+  const store = useUser();
+  const { logOutUser } = store;
 
   return (
     <header className="relative flex items-center justify-between h-14 max-w-sm mx-auto px-4">
@@ -21,7 +23,7 @@ export default function Header () {
         ref={profilePopupRef}
         className="hidden absolute -bottom-12 right-10 max-w-[80] transition ease-in-out bg-white rounded-md shadow-md p-4"
       >
-        <button className="outline-none border-none" onClick={() => logOut()}>
+        <button className="outline-none border-none" onClick={logOutUser}>
           Sign out
         </button>
       </div>
