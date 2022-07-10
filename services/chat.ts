@@ -5,6 +5,27 @@ type Props = {
   accessToken: string,
 }
 
+export const listConversations = async ({ accessToken }: { accessToken: string }) => {
+  const client = new Client(accessToken);
+
+  return new Promise((resolve) => {
+    client.on('stateChanged', async (state) => {
+      console.log(state);
+      if (state === 'initialized') {
+        let conversationsList;
+        try {
+          const getConversationsList = await client.getSubscribedConversations();
+          conversationsList = getConversationsList.items.filter((conversation) => conversation.status === 'joined');
+        } catch (error) {
+          console.error(error);
+        }
+
+        resolve(conversationsList);
+      }
+    });
+  });
+};
+
 export const createConversation = async ({ roomId, accessToken }: Props) => {
   const client = new Client(accessToken);
 

@@ -3,13 +3,15 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { getAccessToken } from '@services/getAccesstToken';
 import { useUser, useConversation } from '@store';
-import { createConversation, joinConversation } from '@services/chat';
+import { createConversation, joinConversation, listConversations } from '@services/chat';
 import { useRouter } from 'next/router';
+import useAsyncEffect from '@hooks/useAsyncEffect';
 
 import type { Conversation } from '@twilio/conversations';
 
 const Home: NextPage = () => {
   const [roomId, setRoomId] = useState<string | null>(null);
+  const [conversationsList, setConversationsList] = useState<Conversation[]>([]);
   const router = useRouter();
 
   const store = useUser();
@@ -17,6 +19,14 @@ const Home: NextPage = () => {
 
   const conversationStore = useConversation();
   const { setActiveConversation } = conversationStore;
+
+  useAsyncEffect(async () => {
+    if (user && user.token) {
+      const accessToken = await getAccessToken(user.token);
+      const conversations = await listConversations({ accessToken });
+      setConversationsList(conversations as Conversation[]);
+    }
+  }, []);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -51,7 +61,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>chat-room App 🍕</title>
+        <title>chat-app 🍕</title>
       </Head>
       <div className="max-w-sm mx-auto py-5">
         <form className="mt-6" onSubmit={handleSubmit}>
@@ -91,6 +101,17 @@ const Home: NextPage = () => {
             </button>
           </div>
         </form>
+
+        <hr className="my-5" />
+
+        {
+          conversationsList.map((conversation) => (
+            <div key={conversation.sid}>
+              {/* PONER EL FRIENDLY NAME EN EL FUTURO */}
+              {conversation.uniqueName}
+            </div>
+          ))
+        }
 
       </div>
     </>

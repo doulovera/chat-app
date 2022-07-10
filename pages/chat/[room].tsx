@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Message } from '@twilio/conversations';
 import { useConversation } from '@store';
+
+import type { Message } from '@twilio/conversations';
 
 import type { NextPage } from 'next';
 import useAsyncEffect from '@hooks/useAsyncEffect';
@@ -12,6 +13,8 @@ const ChatRoom: NextPage = () => {
   const conversationStore = useConversation();
   const { activeConversation } = conversationStore;
   const [messages, setMessages] = useState<Message[]>([]);
+
+  if (!activeConversation && typeof window !== 'undefined') router.push('/');
 
   useAsyncEffect(async () => {
     if (activeConversation) {
@@ -29,8 +32,6 @@ const ChatRoom: NextPage = () => {
       activeConversation?.removeAllListeners();
     };
   }, []);
-
-  if (!activeConversation && typeof window !== 'undefined') router.push('/');
 
   return (
     <div>
