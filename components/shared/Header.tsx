@@ -8,6 +8,11 @@ export default function Header () {
   const store = useUser();
   const { logOutUser } = store;
 
+  const handlePopupElementClick = (onClick: () => void) => {
+    profilePopupRef.current?.classList.toggle('hidden');
+    onClick();
+  };
+
   return (
     <header className="relative flex items-center justify-between h-14 max-w-sm mx-auto px-4">
       <div className="w-16" />
@@ -21,9 +26,9 @@ export default function Header () {
       </div>
       <div
         ref={profilePopupRef}
-        className="hidden absolute -bottom-12 right-10 max-w-[80] transition ease-in-out bg-white rounded-md shadow-md p-4"
+        className="hidden absolute -bottom-12 right-10 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
       >
-        <button className="outline-none border-none" onClick={logOutUser}>
+        <button className="w-full py-1 hover:bg-gray-100 outline-none border-none" onClick={() => handlePopupElementClick(() => logOutUser())}>
           Sign out
         </button>
       </div>

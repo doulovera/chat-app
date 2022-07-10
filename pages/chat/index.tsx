@@ -1,8 +1,12 @@
+import Hero from '@components/chat/Hero';
+// types
 import type { NextPage } from 'next';
 
 const Chat: NextPage = () => {
   return (
-    <h1>hola!</h1>
+    <div>
+      <Hero />
+    </div>
   );
 };
 

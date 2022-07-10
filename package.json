@@ -12,6 +12,7 @@
     "@twilio/conversations": "2.1.0",
     "firebase": "9.9.0",
     "next": "12.2.0",
+    "phosphor-react": "^1.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "twilio": "3.78.0",

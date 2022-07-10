@@ -26,26 +26,28 @@ export default function SignInButton ({ profilePopupRef }: Props) {
   if (!isUserActive) {
     return (
       <button
-        className="w-full font-bold py-2 px-4 rounded-md"
+        className="w-full font-bold py-2 rounded-md border border-black hover:bg-gray-100 hover:text-gray-700"
         onClick={logInGithub}
         type="button"
       >
-        Iniciar sesión
+        Sign in
       </button>
     );
   };
 
   if (isUserActive && isUserActive !== 'IDLE') {
     return (
-      <button className="flex items-center justify-center w-full" onClick={handleProfileClick}>
-        <Image
-          src={`https://unavatar.io/github/${user?.username}`}
-          alt={`Avatar of ${user?.username} in Github`}
-          width="36"
-          height="36"
-          className="rounded-full"
-        />
-      </button>
+      <div className="flex items-center justify-center w-full">
+        <button className="flex items-center justify-center" onClick={handleProfileClick}>
+          <Image
+            src={`https://unavatar.io/github/${user?.username}`}
+            alt={`Avatar of ${user?.username} in Github`}
+            width="36"
+            height="36"
+            className="rounded-full"
+          />
+        </button>
+      </div>
     );
   };
 
