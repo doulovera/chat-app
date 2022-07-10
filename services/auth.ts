@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { GithubAuthProvider, getAuth, signInWithRedirect, onAuthStateChanged } from 'firebase/auth';
+import { GithubAuthProvider, getAuth, signInWithRedirect, onAuthStateChanged, signOut } from 'firebase/auth';
 import { UserInfo } from '@typests/user';
 
 const firebaseConfig = {
@@ -26,6 +26,12 @@ const mapUserFromAuth = (user: any) => {
     uid,
     token: `github_${uid}`, // TODO: make this variable depending on the provider
   };
+};
+
+export const logOut = async () => {
+  const signout = await signOut(auth);
+  console.log('signout', signout);
+  return null;
 };
 
 export const onAuthChanged = (onChange: (user: UserInfo | null) => void) => {

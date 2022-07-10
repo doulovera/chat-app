@@ -10,7 +10,6 @@ export const listConversations = async ({ accessToken }: { accessToken: string }
 
   return new Promise((resolve) => {
     client.on('stateChanged', async (state) => {
-      console.log(state);
       if (state === 'initialized') {
         let conversationsList;
         try {

@@ -20,13 +20,13 @@ const Home: NextPage = () => {
   const conversationStore = useConversation();
   const { setActiveConversation } = conversationStore;
 
-  useAsyncEffect(async () => {
-    if (user && user.token) {
-      const accessToken = await getAccessToken(user.token);
-      const conversations = await listConversations({ accessToken });
-      setConversationsList(conversations as Conversation[]);
-    }
-  }, []);
+  // useAsyncEffect(async () => {
+  //   if (user && user.token) {
+  //     const accessToken = await getAccessToken(user.token);
+  //     const conversations = await listConversations({ accessToken });
+  //     setConversationsList(conversations as Conversation[]);
+  //   }
+  // }, []);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

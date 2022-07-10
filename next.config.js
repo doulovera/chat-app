@@ -1,13 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  redirects: async () => [
-    {
-      source: '/chat',
-      destination: '/',
-      permanent: true,
-    },
-  ],
+  images: {
+    domains: ['unavatar.io'],
+  },
 };
 
 module.exports = nextConfig;

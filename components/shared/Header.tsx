@@ -1,13 +1,30 @@
+import Link from 'next/link';
+import { useRef } from 'react';
 import SignInButton from './SignInButton';
+import { logOut } from '@services/auth';
 
 export default function Header () {
+  const profilePopupRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="flex items-center justify-between max-w-sm mx-auto">
-      <div />
-      <h1>chat-app</h1>
-      <div>
-        <SignInButton />
+    <header className="relative flex items-center justify-between h-14 max-w-sm mx-auto px-4">
+      <div className="w-16" />
+      <h1 className="text-2xl font-bold uppercase">
+        <Link href="/chat">
+          <a>chat-app</a>
+        </Link>
+      </h1>
+      <div className="w-20 text-center">
+        <SignInButton profilePopupRef={profilePopupRef} />
       </div>
-    </div>
+      <div
+        ref={profilePopupRef}
+        className="hidden absolute -bottom-12 right-10 max-w-[80] transition ease-in-out bg-white rounded-md shadow-md p-4"
+      >
+        <button className="outline-none border-none" onClick={() => logOut()}>
+          Sign out
+        </button>
+      </div>
+    </header>
   );
 }

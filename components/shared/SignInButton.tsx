@@ -1,16 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, RefObject } from 'react';
 import { logInGithub } from '@services/auth';
 import { useUser } from '@store';
+import Image from 'next/image';
+import Spinner from '@components/icons/spinner';
 
-export default function SignInButton () {
+type Props = {
+  profilePopupRef: RefObject<HTMLDivElement>;
+}
+
+export default function SignInButton ({ profilePopupRef }: Props) {
   const store = useUser();
-  const [isActive, setIsActive] = useState<boolean | 'IDLE'>('IDLE');
+  const { user } = store;
+  const [isUserActive, setisUserActive] = useState<boolean | 'IDLE'>('IDLE');
 
   useEffect(() => {
-    setIsActive(store.isActive);
+    setisUserActive(store.isActive);
   }, [store.isActive]);
 
-  if (!isActive) {
+  const handleProfileClick = () => {
+    if (profilePopupRef.current) {
+      profilePopupRef.current.classList.toggle('hidden');
+    }
+  };
+
+  if (!isUserActive) {
     return (
       <button
         className="w-full font-bold py-2 px-4 rounded-md"
@@ -22,15 +35,27 @@ export default function SignInButton () {
     );
   };
 
-  if (isActive && isActive !== 'IDLE') {
+  if (isUserActive && isUserActive !== 'IDLE') {
     return (
-      <div>
-        <span>{store.user?.username}</span>
-      </div>
+      <button className="flex items-center justify-center w-full" onClick={handleProfileClick}>
+        <Image
+          src={`https://unavatar.io/github/${user?.username}`}
+          alt={`Avatar of ${user?.username} in Github`}
+          width="36"
+          height="36"
+          className="rounded-full"
+        />
+      </button>
     );
   };
 
   return (
-    <div>Loading...</div>
+    <div className="flex items-center justify-center w-full">
+      <div className="bg-gray-200 flex items-center justify-center w-9 h-9 rounded-full">
+        <div className="w-6 h-6">
+          <Spinner />
+        </div>
+      </div>
+    </div>
   );
 }
