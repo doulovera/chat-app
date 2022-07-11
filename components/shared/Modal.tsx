@@ -8,16 +8,16 @@ export default function Modal () {
   return (
     <div
       id="app-modal"
-      className="translate-x-full fixed top-0 right-0 z-50 h-screen w-screen p-4 bg-primary-darker ease-in-out duration-300"
+      className="translate-x-full fixed top-0 right-0 z-50 h-screen w-screen py-4 px-6 bg-primary-darker transition-transform ease-in-out duration-200"
     >
-      <button
-        className="absolute top-0 right-0 m-2"
-        onClick={closeModal}
-      >
-        <X size={32} />
-      </button>
-      <hr />
-      {modalChild}
+      <div className="w-4/5 max-w-sm mx-auto">
+        <div className="flex justify-end">
+          <button onClick={closeModal}>
+            <X size={32} />
+          </button>
+        </div>
+        {modalChild}
+      </div>
     </div>
   );
 }

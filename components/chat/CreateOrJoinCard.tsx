@@ -1,7 +1,8 @@
 import { Plus, SignIn } from 'phosphor-react';
+import useModal from '@hooks/useModal';
 // types
 import type { ReactElement } from 'react';
-import useModal from '@hooks/useModal';
+import CreateConvoModal from './CreateConvoModal';
 
 function HeroButton (
   { icon, label, handleClick } : { icon: ReactElement, label: string, handleClick: () => void },
@@ -25,14 +26,7 @@ export default function CreateOrJoinCard () {
   const { openModal, setModalChild } = useModal();
 
   const handleCreate = () => {
-    setModalChild(
-      <>
-        <h1>
-          hello world!!!!
-        </h1>
-        <div className="bg-red-700">this is working!!!!</div>
-      </>,
-    );
+    setModalChild(<CreateConvoModal />);
     openModal();
   };
 
