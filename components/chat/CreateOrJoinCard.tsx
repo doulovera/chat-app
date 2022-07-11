@@ -8,7 +8,7 @@ function HeroButton (
   return (
     <div className="grid place-items-center">
       <button
-        className="grid place-items-center h-20 w-20 mb-2 text-black bg-gray-600 rounded-full"
+        className="grid place-items-center h-16 w-16 mb-2 text-black bg-gray-600 rounded-full"
         onClick={handleClick}
       >
         {icon}
@@ -20,10 +20,10 @@ function HeroButton (
   );
 }
 
-export default function Hero () {
+export default function CreateOrJoinCard () {
   return (
     <div
-      className="h-40 bg-primary-darker"
+      className="absolute h-36 w-4/5 min-w-[280px] max-w-md top-0 bottom-0 right-0 left-0 mx-auto bg-primary-dark rounded-xl shadow-xl z-10"
       style={{
         backgroundImage: 'url(/images/sprinkle.svg)',
         backgroundSize: 'cover',
@@ -32,8 +32,8 @@ export default function Hero () {
       }}
     >
       <div className="flex items-center justify-around gap-2 h-full w-3/4 mx-auto">
-        <HeroButton icon={<Plus size={32} color="#dedede" />} label="Create Conversation" handleClick={() => console.log('1')} />
-        <HeroButton icon={<SignIn size={32} color="#dedede" />} label="Join Conversation" handleClick={() => console.log('1')} />
+        <HeroButton icon={<Plus size={32} weight="bold" color="#dedede" />} label="Create Conversation" handleClick={() => console.log('1')} />
+        <HeroButton icon={<SignIn size={32} weight="bold" color="#dedede" />} label="Join Conversation" handleClick={() => console.log('1')} />
       </div>
     </div>
   );

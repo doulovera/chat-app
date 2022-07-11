@@ -15,26 +15,28 @@ export default function Header () {
   };
 
   return (
-    <header className="relative flex items-center justify-between h-14 max-w-sm mx-auto px-4">
-      <div className="w-16" />
-      <h1 className="text-2xl font-bold uppercase">
-        <Link href="/chat">
-          <a>chat-app</a>
-        </Link>
-      </h1>
-      <div className="w-20 text-center">
-        <SignInButton profilePopupRef={profilePopupRef} />
-      </div>
-      <div
-        ref={profilePopupRef}
-        className="hidden absolute -bottom-12 right-10 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
-      >
-        <button className="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 text-black outline-none border-none" onClick={() => handlePopupElementClick(() => logOutUser())}>
-          <SignOut size={18} />
-          <span className="flex-1">
-            Sign out
-          </span>
-        </button>
+    <header className="flex items-center w-full h-16 px-4 bg-primary-darker">
+      <div className="relative flex items-center justify-between w-full max-w-sm mx-auto">
+        <h1 className="text-2xl font-bold uppercase">
+          <Link href="/chat">
+            <a>chat-app</a>
+          </Link>
+        </h1>
+        <div className="w-16" />
+        <div className="w-20 text-center">
+          <SignInButton profilePopupRef={profilePopupRef} />
+        </div>
+        <div
+          ref={profilePopupRef}
+          className="hidden absolute z-50 -bottom-12 right-6 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
+        >
+          <button className="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 text-black outline-none border-none" onClick={() => handlePopupElementClick(() => logOutUser())}>
+            <SignOut size={18} />
+            <span className="flex-1">
+              Sign out
+            </span>
+          </button>
+        </div>
       </div>
     </header>
   );
