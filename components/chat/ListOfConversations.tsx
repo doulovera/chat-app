@@ -37,7 +37,7 @@ export default function ListOfConversations () {
       {
         conversations.length === 0
           ? (
-              'Sorry...'
+              '* Small smallist tutorial for creating/join conversation *'
             )
           : conversations.map((convo) => (
             <ConversationCard key={convo.id} {...convo} />
