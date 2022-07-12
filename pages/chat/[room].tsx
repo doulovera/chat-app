@@ -1,64 +1,87 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useConversation } from '@store';
-
-import type { Message } from '@twilio/conversations';
+import { useState } from 'react';
+import Header from '@components/shared/Header';
 
 import type { NextPage } from 'next';
-import useAsyncEffect from '@hooks/useAsyncEffect';
+import MessageBubble from '@components/conversation/MessageBubble';
+import { PaperPlaneRight } from 'phosphor-react';
 
+const mock = {
+  uniqueName: 'toyoteros-group',
+  friendlyName: 'Toyoteros Group',
+  sendMessage: (text: string) => console.log(text),
+  participants: 3,
+  messages: [
+    {
+      sid: '1231231',
+      author: 'Bob',
+      body: 'Hello, world!',
+    },
+    {
+      sid: '1231232',
+      author: 'Alice',
+      body: 'Hi, Bob!',
+    },
+    {
+      sid: '1231233',
+      author: 'doulovera',
+      body: 'Hi folks!',
+    },
+  ],
+};
+
+const { messages, ...activeConversation } = mock;
+
+const USER_SID = '1231233';
 const ChatRoom: NextPage = () => {
   const [message, setMessage] = useState<string>('');
-  const router = useRouter();
-  const conversationStore = useConversation();
-  const { activeConversation } = conversationStore;
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  if (!activeConversation && typeof window !== 'undefined') router.push('/');
-
-  useAsyncEffect(async () => {
-    if (activeConversation) {
-      const paginator = await activeConversation.getMessages();
-      setMessages(paginator.items);
-    }
-  }, []);
-
-  useEffect(() => {
-    activeConversation?.on('messageAdded', (message: Message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    return () => {
-      activeConversation?.removeAllListeners();
-    };
-  }, []);
 
   return (
-    <div>
-      <h2 className="my-5">{activeConversation?.uniqueName}</h2>
-      <hr />
-      {
-        messages.map((message) => (
-          <div key={message.sid}>
-            <p>{message.author}</p>
-            <p>{message.body}</p>
-          </div>
-        ))
-      }
-      <hr />
-      <input
-        className="p-2 border-gray-700 w-full border-2"
-        type="text"
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-        placeholder="Escribe tu mensaje aquí"
+    <div className="h-full">
+      <Header
+        title={activeConversation.friendlyName}
+        participantCount={activeConversation.participants}
+        isChat
       />
-      <button
-        onClick={() => {
-          activeConversation?.sendMessage(message);
-          setMessage('');
+      <div
+        className="flex flex-col h-full max-w-sm m-auto px-2"
+        style={{
+          backgroundImage: 'url(/images/sprinkle_lg.svg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
-      >send</button>
+      >
+        <div className="flex-1">
+          {
+            messages.map((message) => (
+              <MessageBubble
+                key={message.sid}
+                isLocal={message.sid === USER_SID}
+                author={message.author}
+                body={message.body}
+              />
+            ))
+          }
+        </div>
+        <div className="flex gap-1 h-16 pb-4">
+          <input
+            className="flex-1 w-full p-2 bg-gray-600 border-gray-800 border-2 rounded-xl"
+            type="text"
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            placeholder={`Message in "${activeConversation.friendlyName}"`}
+          />
+          <button
+            className="p-2 bg-primary-darker rounded-full"
+            onClick={() => {
+              activeConversation?.sendMessage(message);
+              setMessage('');
+            }}
+          >
+            <PaperPlaneRight size={26} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

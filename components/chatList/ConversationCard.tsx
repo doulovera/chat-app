@@ -33,14 +33,14 @@ export default function ConversationCard ({ name, lastMessage, pendingMessages }
           )
         }
       </div>
-      <div className="opacity-0 group-hover:opacity-100 overflow-hidden max-w-0 group-hover:max-w-full transition-[max-width,opacity] duration-150 ease-in-out">
+      {/* <div className="opacity-0 group-hover:opacity-100 overflow-hidden max-w-0 group-hover:max-w-full transition-[max-width,opacity] duration-150 ease-in-out">
         <button
           className="grid place-items-center hover:bg-gray-700 rounded-full cursor-default"
           onClick={() => console.log('2')}
         >
           <DotsThreeVertical size={28} />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

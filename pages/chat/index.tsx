@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import CreateOrJoinCard from '@components/chat/CreateOrJoinCard';
-import ListOfConversations from '@components/chat/ListOfConversations';
+import Header from '@components/shared/Header';
+import CreateOrJoinCard from '@components/chatList/CreateOrJoinCard';
+import ListOfConversations from '@components/chatList/ListOfConversations';
 // types
 import type { NextPage } from 'next';
 
@@ -10,6 +11,7 @@ const Chat: NextPage = () => {
       <Head>
         <title>Your chats 🗨</title>
       </Head>
+      <Header title="chat-app" />
       <div>
         <div className="h-40">
           <div className="relative h-24 bg-primary-darker">

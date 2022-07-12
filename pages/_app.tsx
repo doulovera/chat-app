@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/globals.css';
-import Header from '@components/shared/Header';
 import useAuth from '@hooks/useAuth';
 import { ModalContext } from 'context/ModalContext';
 import Modal from '@components/shared/Modal';
@@ -18,8 +17,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
       setModalChild,
     }}
     >
-      <div className="relative bg-primary-dark text-white min-h-screen h-auto min-w-[320px]">
-        <Header />
+      <div className="relative bg-primary-dark text-white min-h-screen h-screen pt-16 min-w-[320px]">
         <Component {...pageProps} />
         <Modal />
       </div>

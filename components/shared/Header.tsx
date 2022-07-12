@@ -4,7 +4,22 @@ import { SignOut } from 'phosphor-react';
 import { useRef } from 'react';
 import SignInButton from './SignInButton';
 
-export default function Header () {
+type ConditionalChat = (
+  | {
+    isChat?: true,
+    participantCount: number,
+  }
+  | {
+    isChat?: false,
+    participantCount?: undefined,
+  }
+);
+
+type Props = {
+  title: string,
+} & ConditionalChat;
+
+export default function Header ({ title, isChat, participantCount }: Props) {
   const profilePopupRef = useRef<HTMLDivElement>(null);
   const store = useUser();
   const { logOutUser } = store;
@@ -15,12 +30,27 @@ export default function Header () {
   };
 
   return (
-    <header className="flex items-center w-full h-16 px-4 bg-primary-darker">
+    <header className="fixed top-0 flex items-center w-full h-16 px-4 bg-primary-darker">
       <div className="relative flex items-center justify-between w-full max-w-sm mx-auto">
-        <h1 className="text-2xl font-bold uppercase">
-          <Link href="/chat">
-            <a>chat-app</a>
-          </Link>
+        <h1 className="text-2xl">
+          {
+            !isChat
+              ? (
+              <Link href="/chat">
+                <a className="font-bold uppercase">{title}</a>
+              </Link>
+                )
+              : (
+              <div>
+                <Link href="/chat">
+                  <a className="font-bold">{title}</a>
+                </Link>
+                <p className="text-xs">
+                  {participantCount} participants
+                </p>
+              </div>
+                )
+          }
         </h1>
         <div className="w-16" />
         <div className="w-20 text-center">
