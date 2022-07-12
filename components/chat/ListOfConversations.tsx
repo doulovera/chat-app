@@ -26,8 +26,8 @@ export default function ListOfConversations () {
   const conversations = mock;
   return (
     <div>
-      <div className="flex justify-between mb-6 text-xl font-semibold">
-        <h2>Conversations</h2>
+      <div className="flex mb-6 text-xl font-semibold">
+        <h2 className="flex-1">Conversations</h2>
         {
           true && (
             <NumberBadge number={3} />

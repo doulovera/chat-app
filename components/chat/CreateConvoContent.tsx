@@ -3,7 +3,7 @@ import FormInput from '@components/shared/FormInput';
 // types
 import type { FormEvent } from 'react';
 
-export default function CreateConvoModal () {
+export default function CreateConvoContent () {
   const [friendlyNameValue, setFriendlyNameValue] = useState('');
   const [roomIdValue, setRoomIdValue] = useState('');
 
@@ -15,6 +15,8 @@ export default function CreateConvoModal () {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (!roomIdValue) return;
+    console.log('Create conversation...');
   };
 
   return (

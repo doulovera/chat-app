@@ -1,9 +1,23 @@
 
 import useModal from '@hooks/useModal';
 import { X } from 'phosphor-react';
+import { useEffect } from 'react';
 
 export default function Modal () {
   const { closeModal, modalChild } = useModal();
+
+  useEffect(() => {
+    const keyDownHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+      }
+    };
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, []);
 
   return (
     <div
