@@ -48,7 +48,7 @@ export default function ListOfConversations () {
               <ConversationCard
                 key={convo.uniqueName}
                 name={convo.friendlyName || convo.uniqueName!}
-                lastMessage={'** No messages yet **'}
+                lastMessage={convo.uniqueName!}
                 pendingMessages={0}
                 roomId={convo.uniqueName!}
               />

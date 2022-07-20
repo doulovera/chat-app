@@ -49,7 +49,7 @@ export default function ConversationCard ({ name, lastMessage, pendingMessages, 
       </div>
       <div className={`flex-1 min-w-0 ${hasPendingMessages ? 'font-bold' : ''}`}>
         <h3>{name}</h3>
-        <p className="text-sm truncate" title={lastMessage}>{lastMessage}</p>
+        <p className="text-sm truncate opacity-50" title={lastMessage}>{lastMessage}</p>
       </div>
       <div>
         {

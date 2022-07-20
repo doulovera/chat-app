@@ -42,6 +42,8 @@ export default function CreateConvoContent () {
       setActiveConversation(conversation as Conversation);
       router.push(`/chat/${roomIdValue}`);
       closeModal();
+      setFriendlyNameValue('');
+      setRoomIdValue('');
     }
   };
 
