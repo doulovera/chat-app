@@ -39,7 +39,7 @@ export const createConversation = async ({ roomId, accessToken, friendlyName }: 
           console.error(error);
         }
 
-        conversation?.join();
+        await conversation?.join();
         resolve(conversation);
       }
     });
