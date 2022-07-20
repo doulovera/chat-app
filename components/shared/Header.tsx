@@ -30,7 +30,7 @@ export default function Header ({ title, isChat, participantCount }: Props) {
   };
 
   return (
-    <header className="fixed top-0 flex items-center w-full h-16 px-4 bg-primary-darker">
+    <header className="fixed z-50 top-0 flex items-center w-full h-16 px-4 bg-primary-darker">
       <div className="relative flex items-center justify-between w-full max-w-sm mx-auto">
         <h1 className="text-2xl">
           {
@@ -46,7 +46,7 @@ export default function Header ({ title, isChat, participantCount }: Props) {
                   <a className="font-bold">{title}</a>
                 </Link>
                 <p className="text-xs">
-                  {participantCount} participants
+                  {participantCount} {participantCount === 1 ? 'participant' : 'participants'}
                 </p>
               </div>
                 )

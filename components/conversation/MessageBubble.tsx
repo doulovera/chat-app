@@ -1,3 +1,7 @@
+import useAsyncEffect from '@hooks/useAsyncEffect';
+import { getGithubUsername } from '@services/getGithubUsername';
+import { useState } from 'react';
+
 type Props = {
   isLocal?: boolean,
   author: string,
@@ -5,6 +9,13 @@ type Props = {
 }
 
 export default function MessageBubble ({ isLocal, author, body }: Props) {
+  const [messageAuthor, setMessageAuthor] = useState(author);
+
+  useAsyncEffect(async () => {
+    const username = await getGithubUsername(author);
+    setMessageAuthor(username);
+  }, []);
+
   return (
     <div
       className={
@@ -12,7 +23,7 @@ export default function MessageBubble ({ isLocal, author, body }: Props) {
       }
     >
       <p className="text-base">{body}</p>
-      <p className="text-xs opacity-60">{author}</p>
+      <p className="text-xs opacity-60">{messageAuthor}</p>
     </div>
   );
 }

@@ -1,11 +1,26 @@
 import { useState } from 'react';
 import FormInput from '@components/shared/FormInput';
+import { useConversation, useUser } from '@store';
+import { getAccessToken } from '@services/getAccesstToken';
+import { createConversation } from '@services/chat';
+import { useRouter } from 'next/router';
 // types
 import type { FormEvent } from 'react';
+import type { Conversation } from '@twilio/conversations';
+import useModal from '@hooks/useModal';
 
 export default function CreateConvoContent () {
+  const store = useUser();
+  const { user } = store;
+  const { closeModal } = useModal();
+
+  const conversationStore = useConversation();
+  const { setActiveConversation } = conversationStore;
+
   const [friendlyNameValue, setFriendlyNameValue] = useState('');
   const [roomIdValue, setRoomIdValue] = useState('');
+
+  const router = useRouter();
 
   const hashFriendlyName = (friendlyName: string) => {
     return friendlyName.toLowerCase().replace(/[^A-Za-z0-9\s-]/gm, '').replace(/\s+/g, '-');
@@ -13,10 +28,21 @@ export default function CreateConvoContent () {
 
   const hashedFriendlyName = hashFriendlyName(friendlyNameValue);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!roomIdValue) return;
-    console.log('Create conversation...');
+
+    if (!user || !user.token) return null;
+    if (!roomIdValue) return null;
+
+    const accessToken = await getAccessToken(user.token);
+    const conversation = await createConversation({ roomId: roomIdValue, accessToken, friendlyName: friendlyNameValue });
+
+    if (conversation) {
+      setActiveConversation(conversation as Conversation);
+      router.push(`/chat/${roomIdValue}`);
+      closeModal();
+    }
   };
 
   return (
@@ -49,7 +75,6 @@ export default function CreateConvoContent () {
               : 'The room ID could be different as the friendly name'
           }
         </p>
-        {/* Convert button into a component 👇 */}
         <button
           type="submit"
           className="block w-full text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mt-12 mr-2 mb-2 bg-gray-600 hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring-gray-800"

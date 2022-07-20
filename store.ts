@@ -1,10 +1,10 @@
 import { getGithubUsername } from '@services/getGithubUsername';
-import { UserInfo } from '@typests/user';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-
-import type { Conversation } from '@twilio/conversations';
 import { logOut } from '@services/auth';
+// types
+import type { Conversation } from '@twilio/conversations';
+import { UserInfo } from '@typests/user';
 
 type Store = {
   isActive: boolean;

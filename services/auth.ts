@@ -24,7 +24,7 @@ const mapUserFromAuth = (user: any) => {
     photoURL,
     displayName,
     uid,
-    token: `github_${uid}`, // TODO: make this variable depending on the provider
+    token: `github_${uid}`,
   };
 };
 

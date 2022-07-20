@@ -1,45 +1,58 @@
-import { useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import Header from '@components/shared/Header';
-
+import useAsyncEffect from '@hooks/useAsyncEffect';
+import { useConversation } from '@store';
+import MessageList from '@components/conversation/MessageList';
+import MessageInput from '@components/conversation/MessageInput';
+// types
 import type { NextPage } from 'next';
-import MessageBubble from '@components/conversation/MessageBubble';
-import { PaperPlaneRight } from 'phosphor-react';
+import type{ Message } from '@twilio/conversations';
 
-const mock = {
-  uniqueName: 'toyoteros-group',
-  friendlyName: 'Toyoteros Group',
-  sendMessage: (text: string) => console.log(text),
-  participants: 3,
-  messages: [
-    {
-      sid: '1231231',
-      author: 'Bob',
-      body: 'Hello, world!',
-    },
-    {
-      sid: '1231232',
-      author: 'Alice',
-      body: 'Hi, Bob!',
-    },
-    {
-      sid: '1231233',
-      author: 'doulovera',
-      body: 'Hi folks!',
-    },
-  ],
-};
-
-const { messages, ...activeConversation } = mock;
-
-const USER_SID = '1231233';
 const ChatRoom: NextPage = () => {
-  const [message, setMessage] = useState<string>('');
+  const router = useRouter();
+
+  const conversationStore = useConversation();
+  const { activeConversation } = conversationStore;
+
+  const [convoMessages, setConvoMessages] = useState<Message[]>([]);
+  const [participantCount, setParticipantCount] = useState<number>(0);
+
+  const containerRef = useRef(null);
+
+  if (!activeConversation && typeof window !== 'undefined') router.push('/chat');
+
+  useAsyncEffect(async () => {
+    if (activeConversation) {
+      const paginator = await activeConversation.getMessages();
+      setConvoMessages(paginator.items);
+
+      const participantCount = await activeConversation.getParticipantsCount();
+      setParticipantCount(Number(participantCount));
+    }
+  }, []);
+
+  useEffect(() => {
+    activeConversation?.on('messageAdded', (message: Message) => {
+      setConvoMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      activeConversation?.removeAllListeners();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (containerRef) {
+      (containerRef as RefObject<HTMLDivElement>).current!.scrollTop = (containerRef as RefObject<HTMLDivElement>).current!.scrollHeight;
+    }
+  }, [convoMessages.length]);
 
   return (
-    <div className="h-full">
+    <div className="min-h-full h-full">
       <Header
-        title={activeConversation.friendlyName}
-        participantCount={activeConversation.participants}
+        title={activeConversation?.friendlyName || activeConversation?.uniqueName!}
+        participantCount={participantCount || 0}
         isChat
       />
       <div
@@ -51,35 +64,21 @@ const ChatRoom: NextPage = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="flex-1">
-          {
-            messages.map((message) => (
-              <MessageBubble
-                key={message.sid}
-                isLocal={message.sid === USER_SID}
-                author={message.author}
-                body={message.body}
-              />
-            ))
-          }
-        </div>
-        <div className="flex gap-1 h-16 pb-4">
-          <input
-            className="flex-1 w-full p-2 bg-gray-600 border-gray-800 border-2 rounded-xl"
-            type="text"
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder={`Message in "${activeConversation.friendlyName}"`}
+        <div
+          ref={containerRef}
+          className="min-h-[82vh] max-h-[82vh] px-4 flex-1 overflow-auto scrollbar scrollbar-thin scrollbar-thumb-primary-darker scrollbar-track-gray-700"
+        >
+          <MessageList
+            messageList={convoMessages}
           />
-          <button
-            className="grid place-items-center aspect-square h-12 bg-primary-darker rounded-full"
-            onClick={() => {
-              activeConversation?.sendMessage(message);
-              setMessage('');
-            }}
-          >
-            <PaperPlaneRight size={26} />
-          </button>
+        </div>
+        <div>
+          <MessageInput
+            activeConversation={activeConversation}
+            friendlyName={activeConversation?.friendlyName}
+            uniqueName={activeConversation?.uniqueName!}
+            containerRef={containerRef}
+          />
         </div>
       </div>
     </div>

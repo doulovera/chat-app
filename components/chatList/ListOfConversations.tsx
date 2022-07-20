@@ -1,29 +1,29 @@
+import { useState } from 'react';
+import { useUser } from '@store';
+import useAsyncEffect from '@hooks/useAsyncEffect';
 import NumberBadge from '@components/shared/NumberBadge';
 import ConversationCard from './ConversationCard';
-
-const mock = [
-  {
-    id: 1,
-    name: 'Nombre convo',
-    lastMessage: 'Last message',
-    pendingMessages: 1,
-  },
-  {
-    id: 2,
-    name: 'Nombre convo',
-    lastMessage: 'Last message',
-    pendingMessages: 0,
-  },
-  {
-    id: 3,
-    name: 'Nombre convo',
-    lastMessage: 'Tengo que maquetar + preparar unas cosas para la próxima semana y no tuve mejor idea que tomarme un birra antes de comer y ahora estoy medio ebria mirando el Visual Studio Code así',
-    pendingMessages: 2,
-  },
-];
+import { getAccessToken } from '@services/getAccesstToken';
+import { listConversations } from '@services/chat';
+// types
+import type{ Conversation } from '@twilio/conversations';
 
 export default function ListOfConversations () {
-  const conversations = mock;
+  const store = useUser();
+  const { user } = store;
+
+  const [status, setStatus] = useState<'idle' | 'fulfilled'>('idle');
+  const [conversationsList, setConversationsList] = useState<Conversation[]>([]);
+
+  useAsyncEffect(async () => {
+    if (user && user.token) {
+      const accessToken = await getAccessToken(user.token);
+      const conversations = await listConversations({ accessToken });
+      setStatus('fulfilled');
+      setConversationsList(conversations as Conversation[]);
+    }
+  }, []);
+
   return (
     <div>
       <div className="flex mb-6 text-xl font-semibold">
@@ -35,13 +35,25 @@ export default function ListOfConversations () {
         }
       </div>
       {
-        conversations.length === 0
+        status === 'idle'
           ? (
-              '* Small smallist tutorial for creating/join conversation *'
+              <p>Loading...</p>
             )
-          : conversations.map((convo) => (
-            <ConversationCard key={convo.id} {...convo} />
-          ))
+          : (
+              conversationsList.length === 0
+                ? (
+                    '* Small smallist tutorial for creating/join conversation *'
+                  )
+                : conversationsList.map((convo) => (
+              <ConversationCard
+                key={convo.uniqueName}
+                name={convo.friendlyName || convo.uniqueName!}
+                lastMessage={'** No messages yet **'}
+                pendingMessages={0}
+                roomId={convo.uniqueName!}
+              />
+                ))
+            )
       }
     </div>
   );

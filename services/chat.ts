@@ -25,7 +25,7 @@ export const listConversations = async ({ accessToken }: { accessToken: string }
   });
 };
 
-export const createConversation = async ({ roomId, accessToken }: Props) => {
+export const createConversation = async ({ roomId, accessToken, friendlyName }: Props & { friendlyName: string }) => {
   const client = new Client(accessToken);
 
   return new Promise((resolve) => {
@@ -34,7 +34,7 @@ export const createConversation = async ({ roomId, accessToken }: Props) => {
         let conversation;
 
         try {
-          conversation = await client.createConversation({ uniqueName: roomId });
+          conversation = await client.createConversation({ uniqueName: roomId, friendlyName });
         } catch (error) {
           console.error(error);
         }
