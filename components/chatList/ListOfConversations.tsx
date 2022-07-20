@@ -18,6 +18,7 @@ export default function ListOfConversations () {
   const [status, setStatus] = useState<'idle' | 'fulfilled'>('idle');
   const [conversationsList, setConversationsList] = useState<Conversation[]>([]);
 
+  // @ts-ignore
   useEffect(() => {
     if (!user && status === 'idle') return () => router.push('/');
   }, []);
