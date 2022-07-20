@@ -46,7 +46,7 @@ const ChatRoom: NextPage = () => {
     if (containerRef) {
       (containerRef as RefObject<HTMLDivElement>).current!.scrollTop = (containerRef as RefObject<HTMLDivElement>).current!.scrollHeight;
     }
-  }, [convoMessages.length]);
+  }, [convoMessages?.length]);
 
   return (
     <div className="min-h-full h-full">
