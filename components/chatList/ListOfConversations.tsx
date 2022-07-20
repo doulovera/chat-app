@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@store';
 import useAsyncEffect from '@hooks/useAsyncEffect';
 import NumberBadge from '@components/shared/NumberBadge';
@@ -7,13 +7,20 @@ import { getAccessToken } from '@services/getAccesstToken';
 import { listConversations } from '@services/chat';
 // types
 import type{ Conversation } from '@twilio/conversations';
+import { useRouter } from 'next/router';
 
 export default function ListOfConversations () {
   const store = useUser();
   const { user } = store;
 
+  const router = useRouter();
+
   const [status, setStatus] = useState<'idle' | 'fulfilled'>('idle');
   const [conversationsList, setConversationsList] = useState<Conversation[]>([]);
+
+  useEffect(() => {
+    if (!user && status === 'idle') return () => router.push('/');
+  }, []);
 
   useAsyncEffect(async () => {
     if (user && user.token) {

@@ -36,26 +36,26 @@ export default function Header ({ title, isChat, participantCount }: Props) {
           {
             !isChat
               ? (
-              <Link href="/chat">
-                <a className="font-bold uppercase">{title}</a>
-              </Link>
+                <Link href="/chat">
+                  <a className="font-bold uppercase">{title}</a>
+                </Link>
                 )
               : (
-              <div>
-                <Link href="/chat">
-                  <a className="font-bold">
-                    <ArrowLeft size={26} style={{ display: 'inline-block', marginRight: '6px' }} />
-                    {
-                      title.length > 14
-                        ? title.slice(0, 14) + '...'
-                        : title
-                    }
-                  </a>
-                </Link>
-                <p className="text-xs ml-8">
-                  {participantCount} {participantCount === 1 ? 'participant' : 'participants'}
-                </p>
-              </div>
+                <div>
+                  <Link href="/chat">
+                    <a className="font-bold">
+                      <ArrowLeft size={26} style={{ display: 'inline-block', marginRight: '6px' }} />
+                      {
+                        title.length > 14
+                          ? title.slice(0, 14) + '...'
+                          : title
+                      }
+                    </a>
+                  </Link>
+                  <p className="text-xs ml-8">
+                    {participantCount} {participantCount === 1 ? 'participant' : 'participants'}
+                  </p>
+                </div>
                 )
           }
         </h1>
