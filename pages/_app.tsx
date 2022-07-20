@@ -5,23 +5,29 @@ import { ModalContext } from 'context/ModalContext';
 import Modal from '@components/shared/Modal';
 // types
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 
 function MyApp ({ Component, pageProps }: AppProps) {
   useAuth();
   const [modalChild, setModalChild] = useState<React.ReactNode | null>(null);
 
   return (
-    <ModalContext.Provider value={{
-      modalRef: typeof window !== 'undefined' ? document.getElementById('app-modal') : null,
-      modalChild,
-      setModalChild,
-    }}
-    >
-      <div className="relative bg-primary-dark text-white min-h-screen h-screen pt-16 min-w-[320px]">
-        <Component {...pageProps} />
-        <Modal />
-      </div>
-    </ModalContext.Provider>
+    <>
+      <Head>
+        <link rel="icon" type="image/png" href="/favicon.png" />
+      </Head>
+      <ModalContext.Provider value={{
+        modalRef: typeof window !== 'undefined' ? document.getElementById('app-modal') : null,
+        modalChild,
+        setModalChild,
+      }}
+      >
+        <div className="relative bg-primary-dark text-white min-h-screen h-screen pt-16 min-w-[320px]">
+          <Component {...pageProps} />
+          <Modal />
+        </div>
+      </ModalContext.Provider>
+    </>
   );
 }
 

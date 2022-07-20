@@ -72,7 +72,7 @@ const ChatRoom: NextPage = () => {
             placeholder={`Message in "${activeConversation.friendlyName}"`}
           />
           <button
-            className="p-2 bg-primary-darker rounded-full"
+            className="grid place-items-center aspect-square h-12 bg-primary-darker rounded-full"
             onClick={() => {
               activeConversation?.sendMessage(message);
               setMessage('');
