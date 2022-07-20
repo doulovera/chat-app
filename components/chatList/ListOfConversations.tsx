@@ -48,7 +48,7 @@ export default function ListOfConversations () {
               <p>Loading...</p>
             )
           : (
-              conversationsList.length === 0
+              conversationsList?.length === 0
                 ? (
                     '* Small smallist tutorial for creating/join conversation *'
                   )

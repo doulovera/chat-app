@@ -46,7 +46,7 @@ export default function Header ({ title, isChat, participantCount }: Props) {
                     <a className="font-bold">
                       <ArrowLeft size={26} style={{ display: 'inline-block', marginRight: '6px' }} />
                       {
-                        title.length > 14
+                        title?.length > 14
                           ? title.slice(0, 14) + '...'
                           : title
                       }
