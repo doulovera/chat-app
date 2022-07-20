@@ -1,6 +1,6 @@
 import { useUser } from '@store';
 import Link from 'next/link';
-import { SignOut } from 'phosphor-react';
+import { ArrowLeft, SignOut } from 'phosphor-react';
 import { useRef } from 'react';
 import SignInButton from './SignInButton';
 
@@ -43,9 +43,16 @@ export default function Header ({ title, isChat, participantCount }: Props) {
               : (
               <div>
                 <Link href="/chat">
-                  <a className="font-bold">{title}</a>
+                  <a className="font-bold">
+                    <ArrowLeft size={26} style={{ display: 'inline-block', marginRight: '6px' }} />
+                    {
+                      title.length > 14
+                        ? title.slice(0, 14) + '...'
+                        : title
+                    }
+                  </a>
                 </Link>
-                <p className="text-xs">
+                <p className="text-xs ml-8">
                   {participantCount} {participantCount === 1 ? 'participant' : 'participants'}
                 </p>
               </div>
