@@ -14,11 +14,11 @@ export default function MessageInput ({ activeConversation, friendlyName, unique
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setMessage('');
 
     if (message.trim() === '') return;
 
     await activeConversation?.sendMessage(message);
-    setMessage('');
 
     if (containerRef) {
       containerRef.current!.scrollTop = containerRef.current!.scrollHeight;
