@@ -37,6 +37,7 @@ export const createConversation = async ({ roomId, accessToken, friendlyName }: 
           conversation = await client.createConversation({ uniqueName: roomId, friendlyName });
         } catch (error) {
           console.error(error);
+          if ((error as Error).message === 'Conflict') alert('There is a conversation with this name already');
         }
 
         await conversation?.join();
