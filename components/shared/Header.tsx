@@ -11,11 +11,13 @@ type ConditionalChat = (
     isChat?: true,
     participantCount: number,
     roomId: string,
+    isRoomAdmin: boolean,
   }
   | {
     isChat?: false,
     participantCount?: undefined,
     roomId?: undefined,
+    isRoomAdmin?: undefined,
   }
 );
 
@@ -23,7 +25,7 @@ type Props = {
   title: string,
 } & ConditionalChat;
 
-export default function Header ({ title, isChat, roomId, participantCount }: Props) {
+export default function Header ({ title, isChat, roomId, participantCount, isRoomAdmin }: Props) {
   const profilePopupRef = useRef<HTMLDivElement>(null);
   const store = useUser();
   const { logOutUser } = store;
@@ -81,7 +83,7 @@ export default function Header ({ title, isChat, roomId, participantCount }: Pro
           className="hidden absolute z-50 -bottom-28 right-6 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
         >
           {
-            typeof window !== 'undefined' && isChat
+            (typeof window !== 'undefined' && isChat && isRoomAdmin)
               ? (
                 <button
                   className="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 text-black outline-none border-none"

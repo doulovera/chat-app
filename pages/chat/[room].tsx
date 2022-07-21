@@ -12,6 +12,7 @@ import Head from 'next/head';
 
 const ChatRoom: NextPage = () => {
   const router = useRouter();
+
   const { user } = useUser();
 
   const conversationStore = useConversation();
@@ -31,8 +32,6 @@ const ChatRoom: NextPage = () => {
 
       const participantCount = await activeConversation.getParticipantsCount();
       setParticipantCount(Number(participantCount));
-
-      console.log(await activeConversation?.getParticipantByIdentity(user?.uid));
     }
   }, []);
 
@@ -61,6 +60,7 @@ const ChatRoom: NextPage = () => {
         title={activeConversation?.friendlyName || activeConversation?.uniqueName!}
         participantCount={participantCount || 0}
         roomId={activeConversation?.uniqueName!}
+        isRoomAdmin={activeConversation?.createdBy === user?.uid}
         isChat
       />
       <div
