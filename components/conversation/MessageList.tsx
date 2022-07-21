@@ -20,6 +20,7 @@ export default function MessageList ({ messageList }: Props) {
             isLocal={message.author === user?.uid}
             author={message.author!}
             body={message.body!}
+            createdAt={message.dateCreated!}
           />
         ))
       }

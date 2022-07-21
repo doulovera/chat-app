@@ -2,15 +2,17 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '@components/shared/Header';
 import useAsyncEffect from '@hooks/useAsyncEffect';
-import { useConversation } from '@store';
+import { useConversation, useUser } from '@store';
 import MessageList from '@components/conversation/MessageList';
 import MessageInput from '@components/conversation/MessageInput';
 // types
 import type { NextPage } from 'next';
 import type{ Message } from '@twilio/conversations';
+import Head from 'next/head';
 
 const ChatRoom: NextPage = () => {
   const router = useRouter();
+  const { user } = useUser();
 
   const conversationStore = useConversation();
   const { activeConversation } = conversationStore;
@@ -29,6 +31,8 @@ const ChatRoom: NextPage = () => {
 
       const participantCount = await activeConversation.getParticipantsCount();
       setParticipantCount(Number(participantCount));
+
+      console.log(await activeConversation?.getParticipantByIdentity(user?.uid));
     }
   }, []);
 
@@ -50,6 +54,9 @@ const ChatRoom: NextPage = () => {
 
   return (
     <div className="min-h-full h-full">
+      <Head>
+        <title>{activeConversation?.friendlyName || activeConversation?.uniqueName}</title>
+      </Head>
       <Header
         title={activeConversation?.friendlyName || activeConversation?.uniqueName!}
         participantCount={participantCount || 0}

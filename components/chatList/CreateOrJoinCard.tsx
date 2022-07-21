@@ -1,9 +1,9 @@
-import { Plus, SignIn } from 'phosphor-react';
+import { Plus } from 'phosphor-react';
 import useModal from '@hooks/useModal';
 // types
 import type { ReactElement } from 'react';
 import CreateConvoContent from './CreateConvoContent';
-import JoinConvoContent from './JoinConvoContent';
+// import JoinConvoContent from './JoinConvoContent';
 
 function HeroButton (
   { icon, label, handleClick } : { icon: ReactElement, label: string, handleClick: () => void },
@@ -31,11 +31,6 @@ export default function CreateOrJoinCard () {
     openModal();
   };
 
-  const handleJoin = () => {
-    setModalChild(<JoinConvoContent />);
-    openModal();
-  };
-
   return (
     <div
       className="absolute h-36 w-4/5 min-w-[280px] max-w-md top-0 bottom-0 right-0 left-0 mx-auto bg-primary-dark rounded-xl shadow-xl z-10"
@@ -51,11 +46,6 @@ export default function CreateOrJoinCard () {
           icon={<Plus size={32} weight="bold" color="#dedede" />}
           label="Create Conversation"
           handleClick={handleCreate}
-        />
-        <HeroButton
-          icon={<SignIn size={32} weight="bold" color="#dedede" />}
-          label="Join Conversation"
-          handleClick={handleJoin}
         />
       </div>
     </div>

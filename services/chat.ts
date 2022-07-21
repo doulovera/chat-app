@@ -82,7 +82,14 @@ export const addParticipant = ({ roomId, accessToken, participantId }: { roomId:
           if ((error as Error).message) alert('You are not allowed to join this conversation!');
         }
 
-        await conversation?.add(participantId);
+        try {
+          await conversation?.add(participantId);
+        } catch (error) {
+          console.error((error as Error).message);
+          if ((error as Error).message === 'Conflict') return alert('That user is already in this conversation!');
+          if ((error as Error).message) return alert('That user does not exist!');
+        }
+
         resolve(conversation);
       }
     });
