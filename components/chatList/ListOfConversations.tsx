@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { useUser } from '@store';
 import useAsyncEffect from '@hooks/useAsyncEffect';
 import NumberBadge from '@components/shared/NumberBadge';
+import NoConversations from './NoConversations';
 import ConversationCard from './ConversationCard';
 import { getAccessToken } from '@services/getAccesstToken';
 import { listConversations } from '@services/chat';
 // types
 import type{ Conversation } from '@twilio/conversations';
 import { useRouter } from 'next/router';
+import { CircleNotch } from 'phosphor-react';
 
 export default function ListOfConversations () {
   const store = useUser();
@@ -45,12 +47,14 @@ export default function ListOfConversations () {
       {
         status === 'idle'
           ? (
-              <p>Loading...</p>
+              <div className="w-full h-40 grid place-items-center">
+                <CircleNotch size={44} className="animate-spin opacity-30" />
+              </div>
             )
           : (
               conversationsList?.length === 0
                 ? (
-                    <p className="opacity-40 text-center">Create your first conversation!</p>
+                    <NoConversations />
                   )
                 : conversationsList.map((convo) => (
               <ConversationCard

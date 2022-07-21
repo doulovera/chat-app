@@ -22,10 +22,8 @@ export default function AddParticipantContent ({ roomId }: { roomId: string }) {
     if (!participantId) return null;
 
     const accessToken = await getAccessToken(user.token);
-    const participant = await addParticipant({ roomId, accessToken, participantId });
+    await addParticipant({ roomId, accessToken, participantId });
     closeModal();
-
-    console.log(participant);
   };
 
   return (
