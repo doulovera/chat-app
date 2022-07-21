@@ -1,11 +1,23 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 // import Link from 'next/link';
 import { GithubLogo } from 'phosphor-react';
 import { logInGithub } from '@services/auth';
+import { useRouter } from 'next/router';
 // types
 import type { NextPage } from 'next';
+import { useUser } from '@store';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const store = useUser();
+
+  useEffect(() => {
+    if (store.user !== null) {
+      router.push('/chat');
+    }
+  }, [store.user]);
+
   return (
     <>
       <Head>

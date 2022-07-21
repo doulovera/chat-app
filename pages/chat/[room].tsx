@@ -53,6 +53,7 @@ const ChatRoom: NextPage = () => {
       <Header
         title={activeConversation?.friendlyName || activeConversation?.uniqueName!}
         participantCount={participantCount || 0}
+        roomId={activeConversation?.uniqueName!}
         isChat
       />
       <div

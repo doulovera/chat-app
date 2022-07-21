@@ -50,7 +50,7 @@ export default function ListOfConversations () {
           : (
               conversationsList?.length === 0
                 ? (
-                    '* Small smallist tutorial for creating/join conversation *'
+                    <p className="opacity-40 text-center">Create your first conversation!</p>
                   )
                 : conversationsList.map((convo) => (
               <ConversationCard

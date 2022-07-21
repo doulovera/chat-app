@@ -58,8 +58,31 @@ export const joinConversation = async ({ roomId, accessToken }: Props) => {
           conversation = await client.getConversationByUniqueName(roomId);
         } catch (error) {
           console.error(error);
+          if ((error as Error).message) alert('You are not allowed to join this conversation!');
         }
 
+        resolve(conversation);
+      }
+    });
+  });
+};
+
+export const addParticipant = ({ roomId, accessToken, participantId }: { roomId: string, accessToken: string, participantId: string }) => {
+  const client = new Client(accessToken);
+
+  return new Promise((resolve) => {
+    client.on('stateChanged', async (state) => {
+      if (state === 'initialized') {
+        let conversation;
+
+        try {
+          conversation = await client.getConversationByUniqueName(roomId);
+        } catch (error) {
+          console.error(error);
+          if ((error as Error).message) alert('You are not allowed to join this conversation!');
+        }
+
+        await conversation?.add(participantId);
         resolve(conversation);
       }
     });
