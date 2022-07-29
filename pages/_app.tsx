@@ -41,7 +41,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
         setModalChild,
       }}
       >
-        <div className="relative bg-primary-dark text-white min-h-screen min-h-screen pt-16 min-w-[320px]">
+        <div className="relative bg-primary-dark text-white min-h-screen pt-16 min-w-[320px]">
           <Component {...pageProps} />
           <Modal />
         </div>

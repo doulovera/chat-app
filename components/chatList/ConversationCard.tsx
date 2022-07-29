@@ -1,9 +1,10 @@
 import NumberBadge from '@components/shared/NumberBadge';
-import { joinConversation } from '@services/chat';
+import { getConversation } from '@services/chat';
 import { getAccessToken } from '@services/getAccesstToken';
 import { useConversation, useUser } from '@store';
 import { useRouter } from 'next/router';
 import { UsersThree } from 'phosphor-react';
+import ConversationOperations from './ConversationOperations';
 // types
 import type { Conversation } from '@twilio/conversations';
 
@@ -31,7 +32,7 @@ export default function ConversationCard ({ name, lastMessage, pendingMessages, 
     if (!roomId) return null;
 
     const accessToken = await getAccessToken(user.token) as string;
-    const conversation = await joinConversation({ roomId, accessToken });
+    const conversation = await getConversation({ roomId, accessToken });
 
     if (conversation) {
       setActiveConversation(conversation as Conversation);
@@ -61,14 +62,7 @@ export default function ConversationCard ({ name, lastMessage, pendingMessages, 
           )
         }
       </div>
-      {/* <div className="opacity-0 group-hover:opacity-100 overflow-hidden max-w-0 group-hover:max-w-full transition-[max-width,opacity] duration-150 ease-in-out">
-        <button
-          className="grid place-items-center hover:bg-gray-700 rounded-full cursor-default"
-          onClick={() => console.log('You found something that I couldnt add yet!!')}
-        >
-          <DotsThreeVertical size={28} />
-        </button>
-      </div> */}
+      <ConversationOperations roomId={roomId} />
     </div>
   );
 }

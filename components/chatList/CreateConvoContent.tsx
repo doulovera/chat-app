@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import FormInput from '@components/shared/FormInput';
+import { useRouter } from 'next/router';
 import { useConversation, useUser } from '@store';
 import { getAccessToken } from '@services/getAccesstToken';
 import { createConversation } from '@services/chat';
-import { useRouter } from 'next/router';
+import useModal from '@hooks/useModal';
+import FormInput from '@components/shared/FormInput';
+import Button from '@components/shared/Button';
 // types
 import type { FormEvent } from 'react';
 import type { Conversation } from '@twilio/conversations';
-import useModal from '@hooks/useModal';
 
 export default function CreateConvoContent () {
   const store = useUser();
@@ -77,12 +78,11 @@ export default function CreateConvoContent () {
               : 'The room ID could be different as the friendly name'
           }
         </p>
-        <button
-          type="submit"
-          className="block w-full text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mt-12 mr-2 mb-2 bg-gray-600 hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring-gray-800"
-        >
-          Create 💬
-        </button>
+        <div className="mt-12 mb-2">
+          <Button type="submit">
+            Create 💬
+          </Button>
+        </div>
       </form>
     </div>
   );

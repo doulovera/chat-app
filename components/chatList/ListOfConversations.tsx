@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@store';
 import useAsyncEffect from '@hooks/useAsyncEffect';
-import NumberBadge from '@components/shared/NumberBadge';
 import NoConversations from './NoConversations';
 import ConversationCard from './ConversationCard';
 import { getAccessToken } from '@services/getAccesstToken';
@@ -34,39 +33,29 @@ export default function ListOfConversations () {
     }
   }, []);
 
-  return (
-    <div>
-      <div className="flex mb-6 text-xl font-semibold">
-        <h2 className="flex-1">Conversations</h2>
-        {
-          true && (
-            <NumberBadge number={3} />
-          )
-        }
+  if (status === 'idle') {
+    return (
+      <div className="w-full h-40 grid place-items-center">
+        <CircleNotch size={44} className="animate-spin opacity-30" />
       </div>
+    );
+  };
+
+  if (conversationsList?.length === 0) return <NoConversations />;
+
+  return (
+    <>
       {
-        status === 'idle'
-          ? (
-              <div className="w-full h-40 grid place-items-center">
-                <CircleNotch size={44} className="animate-spin opacity-30" />
-              </div>
-            )
-          : (
-              conversationsList?.length === 0
-                ? (
-                    <NoConversations />
-                  )
-                : conversationsList.map((convo) => (
-              <ConversationCard
-                key={convo.uniqueName}
-                name={convo.friendlyName || convo.uniqueName!}
-                lastMessage={convo.uniqueName!}
-                pendingMessages={0}
-                roomId={convo.uniqueName!}
-              />
-                ))
-            )
+        conversationsList.map((convo) => (
+          <ConversationCard
+            key={convo.uniqueName}
+            name={convo.friendlyName || convo.uniqueName!}
+            lastMessage={convo.uniqueName!}
+            pendingMessages={0}
+            roomId={convo.uniqueName!}
+          />
+        ))
       }
-    </div>
+    </>
   );
 }

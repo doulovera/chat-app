@@ -3,7 +3,6 @@ import useModal from '@hooks/useModal';
 // types
 import type { ReactElement } from 'react';
 import CreateConvoContent from './CreateConvoContent';
-// import JoinConvoContent from './JoinConvoContent';
 
 function HeroButton (
   { icon, label, handleClick } : { icon: ReactElement, label: string, handleClick: () => void },
@@ -33,7 +32,7 @@ export default function CreateOrJoinCard () {
 
   return (
     <div
-      className="absolute h-36 w-4/5 min-w-[280px] max-w-md top-0 bottom-0 right-0 left-0 mx-auto bg-primary-dark rounded-xl shadow-xl z-10"
+      className="absolute h-32 w-4/5 min-w-[280px] max-w-md top-0 bottom-0 right-0 left-0 mx-auto bg-primary-dark rounded-xl shadow-xl z-10"
       style={{
         backgroundImage: 'url(/images/sprinkle.svg)',
         backgroundSize: 'cover',

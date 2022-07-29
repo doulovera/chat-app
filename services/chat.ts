@@ -47,7 +47,7 @@ export const createConversation = async ({ roomId, accessToken, friendlyName }: 
   });
 };
 
-export const joinConversation = async ({ roomId, accessToken }: Props) => {
+export const getConversation = async ({ roomId, accessToken }: Props) => {
   const client = new Client(accessToken);
 
   return new Promise((resolve) => {
