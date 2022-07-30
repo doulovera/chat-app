@@ -23,8 +23,8 @@ export default function ConversationOperations ({ roomId, isRoomAdmin }: Props) 
     {
       label: 'Delete',
       onClick: handleOpenModal,
-      color: 'text-red-500',
-      icon: <TrashSimple size={20} weight="regular" />,
+      color: 'text-red-500 font-bold',
+      icon: <TrashSimple size={20} weight="bold" />,
     },
   ];
 
