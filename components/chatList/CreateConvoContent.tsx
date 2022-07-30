@@ -20,6 +20,7 @@ export default function CreateConvoContent () {
 
   const [friendlyNameValue, setFriendlyNameValue] = useState('');
   const [roomIdValue, setRoomIdValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -31,6 +32,7 @@ export default function CreateConvoContent () {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
     if (!roomIdValue) return;
 
     if (!user || !user.token) return null;
@@ -43,6 +45,7 @@ export default function CreateConvoContent () {
       setActiveConversation(conversation as Conversation);
       router.push(`/chat/${roomIdValue}`);
       closeModal();
+      setIsLoading(false);
       setFriendlyNameValue('');
       setRoomIdValue('');
     }
@@ -69,6 +72,7 @@ export default function CreateConvoContent () {
           value={roomIdValue}
           onChange={(event) => setRoomIdValue(hashFriendlyName(event.target.value))}
         />
+
         <p className="h-5 text-xs mb-6">
           {
             hashedFriendlyName
@@ -78,8 +82,9 @@ export default function CreateConvoContent () {
               : 'The room ID could be different as the friendly name'
           }
         </p>
+
         <div className="mt-12 mb-2">
-          <Button type="submit">
+          <Button type="submit" isLoading={isLoading}>
             Create 💬
           </Button>
         </div>

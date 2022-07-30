@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useUser } from '@store';
 import useAsyncEffect from '@hooks/useAsyncEffect';
 import NoConversations from './NoConversations';
@@ -7,8 +8,7 @@ import { getAccessToken } from '@services/getAccesstToken';
 import { listConversations } from '@services/chat';
 // types
 import type{ Conversation } from '@twilio/conversations';
-import { useRouter } from 'next/router';
-import { CircleNotch } from 'phosphor-react';
+import Loading from '@components/shared/Loading';
 
 export default function ListOfConversations () {
   const store = useUser();
@@ -34,11 +34,7 @@ export default function ListOfConversations () {
   }, []);
 
   if (status === 'idle') {
-    return (
-      <div className="w-full h-40 grid place-items-center">
-        <CircleNotch size={44} className="animate-spin opacity-30" />
-      </div>
-    );
+    return <Loading className="w-full h-40" iconSize={44} />;
   };
 
   if (conversationsList?.length === 0) return <NoConversations />;

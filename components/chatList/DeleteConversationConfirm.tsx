@@ -4,6 +4,7 @@ import { getAccessToken } from '@services/getAccesstToken';
 import { useUser } from '@store';
 // types
 import type { Conversation } from '@twilio/conversations';
+import { useState } from 'react';
 
 type Props = {
   roomId: string;
@@ -13,8 +14,10 @@ type Props = {
 export default function DeleteConversationConfirm ({ roomId, closeModal }: Props) {
   const store = useUser();
   const { user } = store;
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async () => {
+    setIsLoading(true);
     if (!user || !user?.token) return null;
     const accessToken = await getAccessToken(user.token) as string;
     const conversation = await getConversation({ roomId, accessToken }) as Conversation;
@@ -23,6 +26,7 @@ export default function DeleteConversationConfirm ({ roomId, closeModal }: Props
     if (conversation) {
       if (!isRoomAdmin) return alert('You are not the admin of this conversation');
       await conversation.delete();
+      setIsLoading(false);
       closeModal();
     }
   };
@@ -31,7 +35,7 @@ export default function DeleteConversationConfirm ({ roomId, closeModal }: Props
     <div>
       <h2 className="text-2xl text-center font-bold">Are you sure?</h2>
       <div className="mt-8">
-        <Button color="danger" onClick={handleDelete}>
+        <Button color="danger" onClick={handleDelete} isLoading={isLoading}>
           Delete
         </Button>
         <div className="my-4" />
