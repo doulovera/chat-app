@@ -13,9 +13,10 @@ type Props = {
   lastMessage: string,
   pendingMessages: number,
   roomId: string,
+  isRoomAdmin: boolean,
 }
 
-export default function ConversationCard ({ name, lastMessage, pendingMessages, roomId }: Props) {
+export default function ConversationCard ({ name, lastMessage, pendingMessages, roomId, isRoomAdmin }: Props) {
   const hasPendingMessages = pendingMessages !== 0;
   const store = useUser();
   const { user } = store;
@@ -62,7 +63,7 @@ export default function ConversationCard ({ name, lastMessage, pendingMessages, 
           )
         }
       </div>
-      <ConversationOperations roomId={roomId} />
+      <ConversationOperations roomId={roomId} isRoomAdmin={isRoomAdmin} />
     </div>
   );
 }

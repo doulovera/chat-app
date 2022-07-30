@@ -49,6 +49,7 @@ export default function ListOfConversations () {
             lastMessage={convo.uniqueName!}
             pendingMessages={0}
             roomId={convo.uniqueName!}
+            isRoomAdmin={convo.createdBy === user?.uid}
           />
         ))
       }

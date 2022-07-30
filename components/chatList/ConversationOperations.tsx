@@ -5,10 +5,11 @@ import useModal from '@hooks/useModal';
 import DeleteConversationConfirm from './DeleteConversationConfirm';
 
 type Props = {
-  roomId: string;
+  roomId: string,
+  isRoomAdmin: boolean,
 }
 
-export default function ConversationOperations ({ roomId }: Props) {
+export default function ConversationOperations ({ roomId, isRoomAdmin }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { openModal, closeModal, setModalChild } = useModal();
 
@@ -36,7 +37,7 @@ export default function ConversationOperations ({ roomId }: Props) {
         className={`${isOpen ? '' : 'hidden'} absolute z-40 top-7 right-2 w-36 transition ease-in-out bg-white rounded-md shadow-md py-2`}
       >
         {
-          buttons.map((button, index) => (
+          isRoomAdmin && buttons.map((button, index) => (
             <button
               key={index}
               className={`flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 ${button?.color || 'text-black'} outline-none border-none`}
