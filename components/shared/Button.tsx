@@ -26,7 +26,7 @@ export default function Button ({ children, type = 'button', onClick, disabled, 
   return (
     <button
       type={type}
-      className={`block w-full focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 ${selectedColor.bg} ${selectedColor.hoverBg} ${selectedColor.text} ${selectedColor.focus} ${selectedColor.ring} focus:outline-none`}
+      className={`block w-full focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 ${disabled ? 'opacity-40' : ''} ${selectedColor.bg} ${selectedColor.hoverBg} ${selectedColor.text} ${selectedColor.focus} ${selectedColor.ring} focus:outline-none`}
       onClick={onClick}
       disabled={disabled}
     >

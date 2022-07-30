@@ -59,7 +59,7 @@ export const getConversation = async ({ roomId, accessToken }: Props) => {
           conversation = await client.getConversationByUniqueName(roomId);
         } catch (error) {
           console.error(error);
-          if ((error as Error).message) alert('You are not allowed to join this conversation!');
+          if ((error as Error).message) alert('There was an error getting the conversation');
         }
 
         resolve(conversation);

@@ -10,17 +10,18 @@ type Props = {
 
 export default function ConversationOperations ({ roomId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { openModal, setModalChild } = useModal();
+  const { openModal, closeModal, setModalChild } = useModal();
 
   const handleOpenModal = () => {
-    setModalChild(<DeleteConversationConfirm roomId={roomId} />);
+    setModalChild(<DeleteConversationConfirm roomId={roomId} closeModal={closeModal} />);
     openModal();
+    setIsOpen(false);
   };
 
   const buttons = [
     {
       label: 'Delete',
-      onClick: () => {},
+      onClick: handleOpenModal,
       color: 'text-red-500',
       icon: <TrashSimple size={20} weight="regular" />,
     },
@@ -39,7 +40,7 @@ export default function ConversationOperations ({ roomId }: Props) {
             <button
               key={index}
               className={`flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 ${button?.color || 'text-black'} outline-none border-none`}
-              onClick={handleOpenModal}
+              onClick={button.onClick}
             >
               <span className="flex-1 flex items-center gap-3">
                 {button.icon}

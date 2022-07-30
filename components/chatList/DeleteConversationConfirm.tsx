@@ -5,7 +5,12 @@ import { useUser } from '@store';
 // types
 import type { Conversation } from '@twilio/conversations';
 
-export default function DeleteConversationConfirm ({ roomId }: { roomId: string }) {
+type Props = {
+  roomId: string;
+  closeModal: () => void;
+}
+
+export default function DeleteConversationConfirm ({ roomId, closeModal }: Props) {
   const store = useUser();
   const { user } = store;
 
@@ -13,11 +18,12 @@ export default function DeleteConversationConfirm ({ roomId }: { roomId: string 
     if (!user || !user?.token) return null;
     const accessToken = await getAccessToken(user.token) as string;
     const conversation = await getConversation({ roomId, accessToken }) as Conversation;
+    const isRoomAdmin = conversation?.createdBy === user?.uid;
 
     if (conversation) {
-      // validar si el usuario es el creador
+      if (!isRoomAdmin) return alert('You are not the admin of this conversation');
       await conversation.delete();
-      // cerrar modal
+      closeModal();
     }
   };
 
@@ -29,7 +35,7 @@ export default function DeleteConversationConfirm ({ roomId }: { roomId: string 
           Delete
         </Button>
         <div className="my-4" />
-        <Button>
+        <Button onClick={closeModal}>
           Cancel
         </Button>
       </div>
