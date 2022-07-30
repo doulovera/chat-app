@@ -5,6 +5,7 @@ import { useUser } from '@store';
 // types
 import type { Conversation } from '@twilio/conversations';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type Props = {
   roomId: string;
@@ -28,6 +29,7 @@ export default function DeleteConversationConfirm ({ roomId, closeModal }: Props
       await conversation.delete();
       setIsLoading(false);
       closeModal();
+      toast.success('Converation deleted successfully', { duration: 5000 });
     }
   };
 

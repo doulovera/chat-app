@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
+import { Toaster } from 'react-hot-toast';
 import useAuth from '@hooks/useAuth';
 import { ModalContext } from 'context/ModalContext';
 import Modal from '@components/shared/Modal';
@@ -44,6 +45,13 @@ function MyApp ({ Component, pageProps }: AppProps) {
         <div className="relative bg-primary-dark text-white min-h-screen pt-16 min-w-[320px]">
           <Component {...pageProps} />
           <Modal />
+          <Toaster
+            toastOptions={{
+              style: {
+                background: '#f5f5f5',
+              },
+            }}
+          />
         </div>
       </ModalContext.Provider>
     </>

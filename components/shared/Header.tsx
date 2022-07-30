@@ -80,7 +80,7 @@ export default function Header ({ title, isChat, roomId, participantCount, isRoo
         </div>
         <div
           ref={profilePopupRef}
-          className="hidden absolute z-50 -bottom-28 right-6 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
+          className="hidden absolute z-50 top-11 right-6 w-full max-w-[120px] transition ease-in-out bg-white rounded-md shadow-md py-2"
         >
           {
             (typeof window !== 'undefined' && isChat && isRoomAdmin)

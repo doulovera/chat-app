@@ -9,6 +9,7 @@ import Button from '@components/shared/Button';
 // types
 import type { FormEvent } from 'react';
 import type { Conversation } from '@twilio/conversations';
+import toast from 'react-hot-toast';
 
 export default function CreateConvoContent () {
   const store = useUser();
@@ -48,6 +49,7 @@ export default function CreateConvoContent () {
       setIsLoading(false);
       setFriendlyNameValue('');
       setRoomIdValue('');
+      toast.success('Converation created successfully!', { duration: 5000 });
     }
   };
 
