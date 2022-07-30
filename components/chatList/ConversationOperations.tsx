@@ -28,6 +28,8 @@ export default function ConversationOperations ({ roomId, isRoomAdmin }: Props) 
     },
   ];
 
+  if (!isRoomAdmin) return null;
+
   return (
     <div className="relative" onClick={(e) => e.stopPropagation()}>
       <div className={`${isOpen ? 'opacity-100 max-w-full' : 'opacity-0 max-w-0'} group-hover:opacity-100 overflow-hidden group-hover:max-w-full transition-[max-width,opacity] duration-150 ease-in-out`}>
@@ -37,18 +39,21 @@ export default function ConversationOperations ({ roomId, isRoomAdmin }: Props) 
         className={`${isOpen ? '' : 'hidden'} absolute z-40 top-7 right-2 w-36 transition ease-in-out bg-white rounded-md shadow-md py-2`}
       >
         {
-          isRoomAdmin && buttons.map((button, index) => (
-            <button
-              key={index}
-              className={`flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 ${button?.color || 'text-black'} outline-none border-none`}
-              onClick={button.onClick}
-            >
-              <span className="flex-1 flex items-center gap-3">
-                {button.icon}
-                <span>{button.label}</span>
-              </span>
-            </button>
-          ))
+          buttons.map((button, index) => {
+            if (!button) return null;
+            return (
+              <button
+                key={index}
+                className={`flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 ${button?.color || 'text-black'} outline-none border-none`}
+                onClick={button.onClick}
+              >
+                <span className="flex-1 flex items-center gap-3">
+                  {button.icon}
+                  <span>{button.label}</span>
+                </span>
+              </button>
+            );
+          })
         }
       </div>
     </div>
